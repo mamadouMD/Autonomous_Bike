@@ -1,7 +1,11 @@
+#Code to make the bike move toward a single gps point
+
 import time
 import bike_ultimate_gps
+import coordinate_manipulation
 
 gps = bike_ultimate_gps.UltimateGPS()
+coordm = coordinate_manipulation.CoordinateManipulation()
 
 last_print = time.monotonic()
 while True:
@@ -15,6 +19,8 @@ while True:
     current = time.monotonic()
     if current - last_print >= 1.0:
         last_print = current
-        coord = gps.get_gps_coord()
-        print(coord)
-        print(coord.latitude, coord.longitude)
+        currcoord = gps.get_gps_coord()
+        bearing = coordm.bearing(currcoord, destinationcoord)
+        distance = coordm.bearing(currcoord, destinationcoord)
+        
+        print("bearing

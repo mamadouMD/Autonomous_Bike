@@ -94,6 +94,6 @@ class UltimateGPS:
         if self.gps.height_geoid is not None:
             print('Height geo ID: {} meters'.format(self.gps.height_geoid))
         #Build gps coord point
-        return geopy.point.Point(latitude = self.gps.latitude,longitude = self.gps.longitude)
+        return geopy.point.Point(latitude = self.gps.latitude,longitude = self.gps.latitude)
 
 
