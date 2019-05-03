@@ -10,12 +10,12 @@ Servo directionservo;
 Servo brakeservo;
 
 void bikespeedinit() {
-  pinMode (CS, OUTPUT);   
-  SPI.begin();
+  pinMode (3, OUTPUT);   
+  //SPI.begin();
 }
 
 //Can input speed from 0 to steps(100 at the moment)
-void bikespeed(int speed) {
+/*void bikespeed(int speed) {
   int speedsteps = 100;
   if(speed == 0) {
     MCP41010Write(speed);
@@ -34,6 +34,20 @@ void bikespeed(int speed) {
     Serial.print("\t Voltage = ");
     Serial.println(Voltage,3);
   }
+}*/
+
+void bikespeed(int speed) {
+  if(speed == 0) {
+    analogWrite(3,0);   
+  } else {
+    analogWrite(3,100); 
+  }
+  
+  RawVoltage = analogRead(PotWiperVoltage);
+  Voltage = (RawVoltage * 5.0 )/ 1024.0;
+
+  send_info("\t Voltage = ");
+  send_info(String(Voltage,3));
 }
 
 void MCP41010Write(byte value) 
