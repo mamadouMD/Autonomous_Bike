@@ -90,7 +90,7 @@ def midPoint(lon1, lat1, lon2, lat2):
 
 
 strs = "<trkpt lat="
-with open ('BeoE_Stamp1.gpx', 'rt') as myfile:  # Open file lorem.txt for reading text
+with open ('GPS/BeoE_Stamp1.gpx', 'rt') as myfile:  # Open file lorem.txt for reading text
     for myline in myfile:                 # For each line, read it to a string 
         #str.startswith(str, beg=0,end=len(string));
         #if myline.lstrip(' ').startswith(myline.lstrip(' '), beg=0, end=len(str):
