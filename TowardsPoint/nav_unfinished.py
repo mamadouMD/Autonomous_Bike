@@ -7,6 +7,15 @@ import requests
 import arduino
 import geopy
 
+class APIError(Exception):
+    """An API Error Exception"""
+
+    def __init__(self, status):
+        self.status = status
+
+    def __str__(self):
+        return "APIError: status={}".format(self.status)
+
 gps = bike_ultimate_gps.UltimateGPS()
 coordm = coordinate_manipulation.CoordinateManipulation()
 ard = arduino.Arduino()
@@ -42,7 +51,7 @@ while True:
         print('Sent GPS coordinate to Team 1')
 
         loc_data = {
-            'name': 'Nova_One',
+            'name': 'The_Cool_One',
             'lat': str(currcoord.latitude),
             'lon': str(currcoord.longitude),
             'timestamp': 'Unk'
@@ -56,7 +65,7 @@ while True:
             curr_time.tm_min,   # month!
             curr_time.tm_sec)
 
-        resp = requests.post('http://Fleetofbikes-env.vrqy7xh9wt.us-east-1.elasticbeanstalk.com/bike/location/', json=jsonpost)
+        resp = requests.post('http://Fleetofbikes-env.vrqy7xh9wt.us-east-1.elasticbeanstalk.com/bike/location/', json=loc_data)
 
         if resp.status_code != 201 and resp.status_code != 200:
             raise ApiError('Post was not successful: {}'.format(resp.status_code))
