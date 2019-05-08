@@ -5,6 +5,7 @@ import bike_ultimate_gps
 import coordinate_manipulation
 import requests
 import arduino
+import geopy
 
 gps = bike_ultimate_gps.UltimateGPS()
 coordm = coordinate_manipulation.CoordinateManipulation()
