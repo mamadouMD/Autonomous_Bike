@@ -3,9 +3,13 @@
 import time
 import bike_ultimate_gps
 import coordinate_manipulation
+import requests
+import arduino
 
 gps = bike_ultimate_gps.UltimateGPS()
 coordm = coordinate_manipulation.CoordinateManipulation()
+ard = arduino.Arduino()
+ard.run()
 
 last_print = time.monotonic()
 while True:
@@ -22,21 +26,20 @@ while True:
         currcoord = gps.get_gps_coord()
         bearing = coordm.bearing(currcoord, destinationcoord)
         distance = coordm.bearing(currcoord, destinationcoord)
-        
-        
+
         jsonpost = {
             'longitude': currcoord.longitude,
             'latitude': currcoord.latitude,
             'deviceID': 123456
             }
         resp = requests.post('https://us-central1-fleet-8b5a9.cloudfunctions.net/sendPulse', json=jsonpost)
-        
-        if resp.status_code != 201:
-            raise ApiError('Cannot post response: {}'.format(resp.status_code))
-        print('Created task. ID: {}'.format(resp.json()["id"]))
 
-        resp = todo.get_tasks()
-        if resp.status_code != 200:
-            raise ApiError('Cannot post: {}'.format(resp.status_code))
-        for todo_item in resp.json():
-            print('{} {}'.format(todo_item['id'], todo_item['summary']))
+        if resp.status_code != 201 and resp.status_code != 200:
+            raise ApiError('Post was not successful: {}'.format(resp.status_code))
+        print('Sent GPS coordinate')
+
+        bike_heading = ard.getHeading()
+
+        print("This is the bike bearing: ", bike_heading)
+        print("This is the destination heading: ", bearing)
+        setSteer((bike_heading-bearing)-90)

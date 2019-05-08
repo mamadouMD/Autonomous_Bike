@@ -11,6 +11,11 @@ import struct
 
 BAUD = 115200
 
+def zpad(val, n):
+    val = '%.2f' % steer
+    bits = val.split('.')
+    return "%s.%s" % (bits[0].zfill(n), bits[1])
+
 class Arduino(threading.Thread):
 
     def __init__(self):
@@ -37,7 +42,7 @@ class Arduino(threading.Thread):
         else:
             print("Arduino not found! Is it connected?")
             return None
-    
+
     def getHeading(self):
         return self.heading
 

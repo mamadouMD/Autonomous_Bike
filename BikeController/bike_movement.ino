@@ -12,6 +12,7 @@ Servo brakeservo;
 void bikespeedinit() {
   pinMode (3, OUTPUT);   
   //SPI.begin();
+  send_info("Bike Speed Controller Initialized");
 }
 
 //Can input speed from 0 to steps(100 at the moment)
@@ -63,12 +64,13 @@ void MCP41010Write(byte value)
 
 void bikedirectioninit() {
   directionservo.attach(9);
+  send_info("Bike Direction Controller Initialized");
 }
 
 /*Eventually write it so that the turn is less sudden*/
 
 //Input beteween 0 and 180
-void bikedirection(int direction) {
+void bikedirection(double direction) {
   //1400 is max right (83)
   //1610 is center (104)
   //1820 is max left (125)
@@ -79,6 +81,7 @@ void bikedirection(int direction) {
 
 void bikebrakeinit() {
   brakeservo.attach(6);
+  send_info("Bike Brake Controller Initialized");
 }
 
 void bikebrake() {

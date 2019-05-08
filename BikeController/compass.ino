@@ -1,3 +1,0 @@
-double get_heading() {
-  
-}

@@ -20,30 +20,35 @@ void wait_for_command() {
 
 void read_msg() {
   int type;
+  int speed;
+  int braking;
   type = read_serial();
 
   switch(type) {
     case 0x00:
       send_info("Got a speed command");
-      int speed = read_serial();
+      speed = read_serial();
       send_info("Recieved this speed: " + String(speed)); 
       bikespeed(speed);
       break;
     case 0x01:
       send_info("Got a brake command");
-      int braking = read_serial();
+      braking = read_serial();
       send_info("Recieved this brake: " + String(braking));
       //Fix this later to variable break hardness
       switch(braking) {
         case 1:
-        bikebrake();
-        break;
+          bikebrake();
+          break;
         case 2:
-        bikebrake();
-        break;
+          bikebrake();
+          break;
         case 3:
-        bikeunbrake();
-        break;
+          bikeunbrake();
+          break;
+        default:
+          bikebrake();
+          break;
       }
       break;
     case 0x02:

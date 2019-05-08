@@ -2,6 +2,7 @@ void setup() {
   bikespeedinit();
   bikedirectioninit();
   bikebrakeinit();
+  compassinit();
   Serial.begin(115200);
 
   Serial.println("Arduino code started up");
@@ -37,4 +38,5 @@ void loop() {
   delay(1);
   */
   wait_for_command();
+  send_compass_data();
 }
