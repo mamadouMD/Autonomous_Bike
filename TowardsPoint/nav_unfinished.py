@@ -24,7 +24,7 @@ while True:
     #gps.update()
     # Every second print out current location details if there's a fix.
     current = time.monotonic()
-    if current - last_print >= 10.0:
+    if current - last_print >= 5.0:
         last_print = current
         currcoord = gps.get_gps_coord()
         bearing = coordm.bearing(currcoord, destinationcoord)
