@@ -39,7 +39,29 @@ while True:
 
         if resp.status_code != 201 and resp.status_code != 200:
             raise ApiError('Post was not successful: {}'.format(resp.status_code))
-        print('Sent GPS coordinate')
+        print('Sent GPS coordinate to Team 1')
+
+        loc_data = {
+            'name': 'Nova_One',
+            'lat': str(currcoord.latitude),
+            'lon': str(currcoord.longitude),
+            'timestamp': 'Unk'
+            }
+        curr_time = time.gmtime()
+        loc_data['timestamp'] = '{}/{}/{} {:02}:{:02}:{:02}'.format(
+            curr_time.tm_mon,   # Grab parts of the time from the
+            curr_time.tm_mday,  # struct_time object that holds
+            curr_time.tm_year,  # the fix time.  Note you might
+            curr_time.tm_hour,  # not get all data like year, day,
+            curr_time.tm_min,   # month!
+            curr_time.tm_sec)
+
+        resp = requests.post('http://Fleetofbikes-env.vrqy7xh9wt.us-east-1.elasticbeanstalk.com/bike/location/', json=jsonpost)
+
+        if resp.status_code != 201 and resp.status_code != 200:
+            raise ApiError('Post was not successful: {}'.format(resp.status_code))
+        print('Sent GPS coordinate to Team 2')
+
 
         bike_heading = ard.getHeading()
 
