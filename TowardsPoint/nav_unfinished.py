@@ -17,10 +17,26 @@ while True:
     #gps.update()
     # Every second print out current location details if there's a fix.
     current = time.monotonic()
-    if current - last_print >= 1.0:
+    if current - last_print >= 10.0:
         last_print = current
         currcoord = gps.get_gps_coord()
         bearing = coordm.bearing(currcoord, destinationcoord)
         distance = coordm.bearing(currcoord, destinationcoord)
         
-        print("bearing
+        
+        jsonpost = {
+            'longitude': currcoord.longitude,
+            'latitude': currcoord.latitude,
+            'deviceID': 123456
+            }
+        resp = requests.post('https://us-central1-fleet-8b5a9.cloudfunctions.net/sendPulse', json=jsonpost)
+        
+        if resp.status_code != 201:
+            raise ApiError('Cannot post response: {}'.format(resp.status_code))
+        print('Created task. ID: {}'.format(resp.json()["id"]))
+
+        resp = todo.get_tasks()
+        if resp.status_code != 200:
+            raise ApiError('Cannot post: {}'.format(resp.status_code))
+        for todo_item in resp.json():
+            print('{} {}'.format(todo_item['id'], todo_item['summary']))
