@@ -70,7 +70,7 @@ void bikedirectioninit() {
 /*Eventually write it so that the turn is less sudden*/
 
 //Input beteween 0 and 180
-void bikedirection(double direction) {
+void bikedirection(float direction) {
   //1400 is max right (83)
   //1610 is center (104)
   //1820 is max left (125)

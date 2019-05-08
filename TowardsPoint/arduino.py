@@ -72,8 +72,8 @@ class Arduino(threading.Thread):
         try:
             self.sendMagic()
             self.ser.write(b'\02')
-            data = struct.pack(steer, "<H")
-            self.ser.write(data)
+            data = zpad(val, 3)
+            self.ser.write(data.encode())
         except:
             print("******Failed to send to arduino!****")
 
@@ -84,7 +84,7 @@ class Arduino(threading.Thread):
             if b == b'\xce':
                 return self.ser.read()
         return None
-        
+
 
     def run(self):
         self.ser = self.connect()

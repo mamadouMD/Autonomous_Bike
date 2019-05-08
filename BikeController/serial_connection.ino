@@ -53,10 +53,10 @@ void read_msg() {
       break;
     case 0x02:
       send_info("Got a steer command"); 
-      uint16_t steerb;
-      Serial.readBytes((byte*)&steerb,2);
+      char steerb[7];
+      Serial.readBytes(steerb,7);
       send_info("Recieved this steer: " + String(steerb));
-      bikedirection((int)steerb);
+      bikedirection(atof(steerb));
       break;
     case 0x03:
       send_info("Got a heading, error");
