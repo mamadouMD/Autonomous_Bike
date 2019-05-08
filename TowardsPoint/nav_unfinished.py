@@ -11,6 +11,8 @@ coordm = coordinate_manipulation.CoordinateManipulation()
 ard = arduino.Arduino()
 ard.run()
 
+destinationcoord = geopy.point.Point(38.99262,-76.9373,0)
+
 last_print = time.monotonic()
 while True:
     gps.gps_update()
@@ -42,4 +44,4 @@ while True:
 
         print("This is the bike bearing: ", bike_heading)
         print("This is the destination heading: ", bearing)
-        setSteer((bike_heading-bearing)-90)
+        #setSteer((bike_heading-bearing)-90)

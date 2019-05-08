@@ -5,14 +5,14 @@ import geopy
 
 class CoordinateManipulation:
     def __init__(self):
-    
+        return
     # Computing the distance between two given GPS point
     #
     # Haversine
     # formula:    a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
     #             c = 2 ⋅ atan2( √a, √(1−a) )
     #             d = R ⋅ c
-    #           
+    #
     #           where   φ is latitude, λ is longitude, R is earth’s radius (mean radius = 6,371km);
     #           note that angles need to be in radians to pass to trig functions!
     def distance(self, coord1, coord2):
@@ -33,9 +33,9 @@ class CoordinateManipulation:
         d = R * c
 
         return d
-    
+
     # Computing the bearing from long and lat of two GPS coordonate
-    # 
+    #
     # Formula:    θ = atan2( sin Δλ ⋅ cos φ2 , cos φ1 ⋅ sin φ2 − sin φ1 ⋅ cos φ2 ⋅ cos Δλ )
     #             where   φ1,λ1 is the start point, φ2,λ2 the end point (Δλ is the difference in longitude)
     def bearing(self, coord1, coord2):
@@ -55,13 +55,13 @@ class CoordinateManipulation:
 
         return bearing
 
-    # Since atan2 returns values in the range -π ... +π (that is, -180° ... +180°), to normalise the result 
-    # to a compass bearing (in the range 0° ... 360°, with −ve values transformed into the range 180° ... 360°), 
+    # Since atan2 returns values in the range -π ... +π (that is, -180° ... +180°), to normalise the result
+    # to a compass bearing (in the range 0° ... 360°, with −ve values transformed into the range 180° ... 360°),
     # convert to degrees and then use (θ+360) % 360, where % is (floating point) modulo.
 
     # initial_Bearing = (bearing + 360)% 360
 
-    # For final bearing, simply take the initial bearing from the end point to the start point and 
+    # For final bearing, simply take the initial bearing from the end point to the start point and
     # reverse it (using θ = (θ+180) % 360).
 
     # final_bearing = (bearing + 180) % 360
@@ -84,6 +84,3 @@ class CoordinateManipulation:
         lamdha3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
 
         return [phi3, lamdha3]
-
-
-        
