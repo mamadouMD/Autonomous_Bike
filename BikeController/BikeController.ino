@@ -1,11 +1,16 @@
+unsigned long prev;
+unsigned long now;
+
 void setup() {  
   bikespeedinit();
   bikedirectioninit();
   bikebrakeinit();
-  //compassinit();
+  compassinit();
   Serial.begin(115200);
 
   Serial.println("Arduino code started up");
+
+  prev = millis();
 }
 
 int curr = 0;
@@ -37,8 +42,13 @@ void loop() {
   }
   delay(1);
   */
+
+  now = millis();
+
+  if (now-prev >= 500) {
+    prev = now;
+    send_compass_data();
+  }
   
   wait_for_command();
-  //send_compass_data();
-  
 }
