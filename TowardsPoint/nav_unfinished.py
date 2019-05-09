@@ -6,6 +6,7 @@ import coordinate_manipulation
 import requests
 import arduino
 import geopy
+from geopy import distance
 
 class APIError(Exception):
     """An API Error Exception"""
@@ -37,7 +38,7 @@ while True:
         last_print = current
         currcoord = gps.get_gps_coord()
         bearing = coordm.bearing(currcoord, destinationcoord)
-        distance = coordm.bearing(currcoord, destinationcoord)
+        distance = distance.distance(currcoord, destinationcoord).meters
 
         jsonpost = {
             'longitude': currcoord.longitude,
@@ -71,7 +72,7 @@ while True:
             raise ApiError('Post was not successful: {}'.format(resp.status_code))
         print('Sent GPS coordinate to Team 2')
 
-        if (distance < 10):
+        if (distance < 1):
             print("Reached destination")
             ard.setSpeed(0)
             ard.setBrake(1)
