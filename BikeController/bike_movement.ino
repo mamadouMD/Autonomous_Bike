@@ -5,18 +5,18 @@ const int CS = 10;
 int PotWiperVoltage = 1;
 int RawVoltage = 0;
 float Voltage = 0;
+int level = 0;
 
 Servo directionservo;
 Servo brakeservo;
 
 void bikespeedinit() {
-  pinMode (3, OUTPUT);   
-  //SPI.begin();
-  send_info("Bike Speed Controller Initialized");
+  pinMode (CS, OUTPUT);   
+  SPI.begin();
 }
 
 //Can input speed from 0 to steps(100 at the moment)
-/*void bikespeed(int speed) {
+void bikespeed(int speed) {
   int speedsteps = 100;
   if(speed == 0) {
     MCP41010Write(speed);
@@ -24,7 +24,7 @@ void bikespeedinit() {
     RawVoltage = analogRead(PotWiperVoltage);
     Voltage = (RawVoltage * 5.0 )/ 1024.0;
   } else {
-    int level = 68 + ((255-68)/speedsteps)*(speed);
+    level = 68 + ((double)(240-68)/speedsteps)*(speed);
     MCP41010Write(level);
     delay(100);
     RawVoltage = analogRead(PotWiperVoltage);
@@ -35,8 +35,9 @@ void bikespeedinit() {
     Serial.print("\t Voltage = ");
     Serial.println(Voltage,3);
   }
-}*/
+}
 
+/*
 void bikespeed(int speed) {
   if(speed == 0) {
     analogWrite(3,0);   
@@ -49,7 +50,7 @@ void bikespeed(int speed) {
 
   send_info("\t Voltage = ");
   send_info(String(Voltage,3));
-}
+}*/
 
 void MCP41010Write(byte value) 
 {
@@ -64,24 +65,27 @@ void MCP41010Write(byte value)
 
 void bikedirectioninit() {
   directionservo.attach(9);
-  send_info("Bike Direction Controller Initialized");
 }
 
 /*Eventually write it so that the turn is less sudden*/
 
 //Input beteween 0 and 180
-void bikedirection(float direction) {
-  //1400 is max right (83)
-  //1610 is center (104)
-  //1820 is max left (125)
-  int directionsteps = 210/(90-28);
-  int val = 1610 - (direction - 90)*directionsteps;
+void bikedirection(int direction) {
+  //1230 is max right (83)
+  //1420 is center (104)
+  //1610 is max left (125)
+  if(direction > 62) {
+    direction = 62;
+  } else if (direction < -62) {
+    direction = -62;
+  }
+  double directionsteps = ((double)(1420-1260)/62);
+  int val = 1420 - (direction)*directionsteps;
   directionservo.writeMicroseconds(val);
 }
 
 void bikebrakeinit() {
   brakeservo.attach(6);
-  send_info("Bike Brake Controller Initialized");
 }
 
 void bikebrake() {
