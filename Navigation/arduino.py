@@ -38,6 +38,7 @@ class Arduino(threading.Thread):
     def connect(self):
         port = self.get_port()
         if port:
+            print("Found this port" + str(port.device))
             return serial.Serial(port.device, BAUD, timeout=2)
         else:
             print("Arduino not found! Is it connected?")
