@@ -70,14 +70,14 @@ void bikedirectioninit() {
 /*Eventually write it so that the turn is less sudden*/
 
 //Input beteween 0 and 180
-void bikedirection(int direction) {
+void bikedirection(double direction) {
   //1230 is max right (83)
   //1420 is center (104)
   //1610 is max left (125)
   if(direction > 62) {
-    direction = 62;
+    direction = 62.0;
   } else if (direction < -62) {
-    direction = -62;
+    direction = -62.0;
   }
   double directionsteps = ((double)(1420-1260)/62);
   int val = 1420 - (direction)*directionsteps;

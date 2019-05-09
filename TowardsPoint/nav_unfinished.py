@@ -76,4 +76,4 @@ while True:
 
         print("This is the bike bearing: ", bike_heading)
         print("This is the destination heading: ", bearing)
-        #setSteer((bike_heading-bearing)-90)
+        ard.setSteer((bike_heading-bearing)-90)

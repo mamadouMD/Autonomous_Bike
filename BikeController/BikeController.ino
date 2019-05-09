@@ -11,7 +11,7 @@ void setup() {
 int curr = 0;
 int incomingByte;
 void loop() {
-  
+  /*
   if (Serial.available() > 0) {
     incomingByte = Serial.read();
 
@@ -36,9 +36,9 @@ void loop() {
     bikespeed(0);       
   }
   delay(1);
-  
-  /*
-  wait_for_command();
-  send_compass_data();
   */
+  
+  wait_for_command();
+  //send_compass_data();
+  
 }
