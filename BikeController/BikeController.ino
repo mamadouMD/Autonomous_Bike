@@ -2,7 +2,7 @@ void setup() {
   bikespeedinit();
   bikedirectioninit();
   bikebrakeinit();
-  compassinit();
+  //compassinit();
   Serial.begin(115200);
 
   Serial.println("Arduino code started up");

@@ -55,8 +55,9 @@ void read_msg() {
       send_info("Got a steer command"); 
       char steerb[7];
       Serial.readBytes(steerb,7);
-      send_info("Recieved this steer: " + String(steerb));
-      bikedirection(atof(steerb));
+      double steer = atof(steerb);
+      send_info("Recieved this steer: " + String(steer));
+      bikedirection(steer);
       break;
     case 0x03:
       send_info("Got a heading, error");
