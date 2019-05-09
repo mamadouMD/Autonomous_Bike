@@ -30,10 +30,10 @@ void bikespeed(int speed) {
     RawVoltage = analogRead(PotWiperVoltage);
     Voltage = (RawVoltage * 5.0 )/ 1024.0;
 
-    Serial.print("Level = " );                      
-    Serial.print(level);      
-    Serial.print("\t Voltage = ");
-    Serial.println(Voltage,3);
+    send_info("Level = " );                      
+    send_info(String(level));      
+    send_info("\t Voltage = ");
+    send_info(String(Voltage,3));
   }
 }
 
@@ -90,10 +90,12 @@ void bikebrakeinit() {
 
 void bikebrake() {
   directionservo.write(170);
+  send_info("Braking the bike");
 }
 
 void bikeunbrake() {
   directionservo.write(100);
+  send_info("Unbraking the bike");
 }
 
 //void bikebrakemedium() {

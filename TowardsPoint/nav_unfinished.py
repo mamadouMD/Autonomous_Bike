@@ -33,7 +33,7 @@ while True:
     #gps.update()
     # Every second print out current location details if there's a fix.
     current = time.monotonic()
-    if current - last_print >= 3.0:
+    if current - last_print >= 2.0:
         last_print = current
         currcoord = gps.get_gps_coord()
         bearing = coordm.bearing(currcoord, destinationcoord)
@@ -71,9 +71,22 @@ while True:
             raise ApiError('Post was not successful: {}'.format(resp.status_code))
         print('Sent GPS coordinate to Team 2')
 
+        if (distance < 10):
+            print("Reached destination")
+            ard.setSpeed(0)
+            ard.setBrake(1)
+            break
+
+        ard.setSpeed(0)
+        ard.setBrake(1)
+
+        time.sleep(3)
 
         bike_heading = ard.getHeading()
 
         print("This is the bike bearing: ", bike_heading)
         print("This is the destination heading: ", bearing)
-        ard.setSteer((bike_heading-bearing)-90)
+        ard.setSteer(bike_heading-bearing)
+
+        ard.setBrake(3)
+        ard.setSpeed(10)
