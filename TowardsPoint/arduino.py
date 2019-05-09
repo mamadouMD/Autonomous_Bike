@@ -12,7 +12,7 @@ import struct
 BAUD = 115200
 
 def zpad(val, n):
-    val = '%.2f' % steer
+    val = '%.2f' % val
     bits = val.split('.')
     return "%s.%s" % (bits[0].zfill(n), bits[1])
 
@@ -54,28 +54,26 @@ class Arduino(threading.Thread):
         try:
             self.sendMagic()
             self.ser.write(b'\00')
-            print(bytes([speed]))
             self.ser.write(bytes([speed]))
-        except Error as e:
+        except Exception as e:
             print("******Failed to send to arduino!**** Error: " + str(e))
 
     def setBreak(self, brk):
         try:
             self.sendMagic()
             self.ser.write(b'\01')
-            self.ser.write(bytes([speed]))
-        except Error as e:
-            print(e)
-            print("******Failed to send to arduino!****: " + str(e))
+            self.ser.write(bytes([brk]))
+        except Exception as e:
+            print("******Failed to send to arduino!**** Error: " + str(e))
 
-    def setSteer(self, steer):
+    def setSteer(self, steering):
         try:
             self.sendMagic()
             self.ser.write(b'\02')
-            data = zpad(val, 3)
+            data = zpad(steering, 3)
             self.ser.write(data.encode())
-        except:
-            print("******Failed to send to arduino!****")
+        except Exception as e:
+            print("******Failed to send to arduino!**** Error: " + str(e))
 
     def recvCommand(self):
         b = self.ser.read()

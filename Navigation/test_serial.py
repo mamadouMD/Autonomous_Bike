@@ -4,9 +4,9 @@ import time
 
 ard = arduino.Arduino()
 
+time.sleep(5)
+ard.setBreak(3)
 time.sleep(1)
-ard.setBreak(1)
+ard.setSteer(0)
 time.sleep(1)
-ard.setSteer(270.56)
-time.sleep(1)
-ard.setSpeed(20)
+ard.setSpeed(0)

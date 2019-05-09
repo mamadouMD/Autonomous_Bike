@@ -54,7 +54,6 @@ class Arduino(threading.Thread):
         try:
             self.sendMagic()
             self.ser.write(b'\00')
-            print(bytes([speed]))
             self.ser.write(bytes([speed]))
         except Exception as e:
             print("******Failed to send to arduino!**** Error: " + str(e))
