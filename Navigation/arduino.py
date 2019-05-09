@@ -94,9 +94,13 @@ class Arduino(threading.Thread):
                         comm = self.recvCommand()
                         if comm:
                             if comm == b'\x03':
-                                heading_len = int.from_bytes(self.ser.read(),"little")
-                                heading_str = self.ser.read(heading_len).decode('utf-8')
-                                self.heading = float(heading_str)
+                                try:
+                                    heading_len = int.from_bytes(self.ser.read(),"little")
+                                    heading_str = self.ser.read(heading_len).decode('utf-8')
+                                    self.heading = float(heading_str)
+                                    print("Got a heading: " + str(self.heading))
+                                except Exception as e:
+                                    print("Messed up heading: " + str(e))
                             elif comm == b'\x04':
                                 info_len = int.from_bytes(self.ser.read(),"little")
                                 msg = self.ser.read(info_len).decode('utf-8')
@@ -104,6 +108,6 @@ class Arduino(threading.Thread):
                             else:
                                 print("Unknown Command from Arduino!")
                     except Exception as e:
-                        print("*** Failed to read from ardino")
+                        print("*** Failed to read from arduino")
                         print(e)
                         None
