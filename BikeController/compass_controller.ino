@@ -13,8 +13,8 @@ void compassinit() {
   lead to an assumed magnetometer bias of 0. Use the Calibrate example
   program to determine appropriate values for your particular unit.
   */
-  compass.m_min = (LSM303::vector<int16_t>){-685, -533, -717};
-  compass.m_max = (LSM303::vector<int16_t>){+542, +672, +406};
+  compass.m_min = (LSM303::vector<int16_t>){-786, -602, -721};
+  compass.m_max = (LSM303::vector<int16_t>){+552, +607, +532};
 }
 
 double get_heading() {
