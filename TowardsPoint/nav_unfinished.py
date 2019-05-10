@@ -25,7 +25,6 @@ destinationcoord = geopy.point.Point(38.99262,-76.9373,0)
 
 last_print = time.monotonic()
 while True:
-    gps.gps_update()
     # Make sure to call gps.update() every loop iteration and at least twice
     # as fast as data comes from the GPS unit (usually every second).
     # This returns a bool that's true if it parsed new data (you can ignore it
@@ -69,7 +68,7 @@ while True:
         if resp.status_code != 201 and resp.status_code != 200:
             raise ApiError('Post was not successful: {}'.format(resp.status_code))
         print('Sent GPS coordinate to Team 2')
-        
+
         last_print = current
         if (dist < 1):
             print("Reached destination")
