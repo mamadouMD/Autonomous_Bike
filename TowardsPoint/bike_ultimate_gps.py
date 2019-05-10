@@ -19,9 +19,11 @@ import geopy
 
 # for a computer, use the pyserial library for uart access
 import serial
+import threading
 
-class UltimateGPS:
+class UltimateGPS(threading.Thread):
     def __init__(self):
+        threading.Thread.__init__(self)
         self.uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=3000)
 
         # Create a GPS module instance.
@@ -50,9 +52,11 @@ class UltimateGPS:
         # You can also speed up the rate, but don't go too fast or else you can lose
         # data during parsing.  This would be twice a second (2hz, 500ms delay):
         #gps.send_command(b'PMTK220,500')
-    
-    def gps_update(self):
-        self.gps.update()
+
+
+    def run(self):
+        while 1:
+            self.gps.update()
 
     def get_gps_coord(self):
         last_print = time.monotonic()
@@ -95,5 +99,3 @@ class UltimateGPS:
             print('Height geo ID: {} meters'.format(self.gps.height_geoid))
         #Build gps coord point
         return geopy.point.Point(latitude = self.gps.latitude,longitude = self.gps.longitude)
-
-
