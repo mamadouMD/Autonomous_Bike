@@ -45,7 +45,7 @@ void loop() {
 
   now = millis();
 
-  if (now-prev >= 500) {
+  if (now-prev >= 1000) {
     prev = now;
     send_compass_data();
   }

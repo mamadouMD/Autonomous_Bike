@@ -1,36 +1,48 @@
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_LSM303_U.h>
- 
-/* Assign a unique ID to this sensor at the same time */
-Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
+#include <LSM303.h>
+
+LSM303 compass;
 
 void compassinit() {
-  /* Initialise the sensor */
-  if(!mag.begin())
-  {
-    /* There was a problem detecting the LSM303 ... check your connections */
-    send_info("Ooops, no LSM303 detected ... Check your wiring!");
-    while(1);
-  }
-  send_info("Compass initialized");
+  Wire.begin();
+  compass.init();
+  compass.enableDefault();
+  
+  /*
+  Calibration values; the default values of +/-32767 for each axis
+  lead to an assumed magnetometer bias of 0. Use the Calibrate example
+  program to determine appropriate values for your particular unit.
+  */
+  compass.m_min = (LSM303::vector<int16_t>){-685, -533, -717};
+  compass.m_max = (LSM303::vector<int16_t>){+542, +672, +406};
 }
 
 double get_heading() {
-  /* Get a new sensor event */ 
-  sensors_event_t event; 
-  mag.getEvent(&event);
-
-  float Pi = 355/113;
-
-  // Calculate the angle of the vector y,x
-  float heading = (atan2(event.magnetic.y,event.magnetic.x) * 180) / Pi;
-
-  // Normalize to 0-360
-  if (heading < 0)
-  {
-    heading = 360 + heading;
+  compass.read();
+  
+  /*
+  When given no arguments, the heading() function returns the angular
+  difference in the horizontal plane between a default vector and
+  north, in degrees.
+  
+  The default vector is chosen by the library to point along the
+  surface of the PCB, in the direction of the top of the text on the
+  silkscreen. This is the +X axis on the Pololu LSM303D carrier and
+  the -Y axis on the Pololu LSM303DLHC, LSM303DLM, and LSM303DLH
+  carriers.
+  
+  To use a different vector as a reference, use the version of heading()
+  that takes a vector argument; for example, use
+  
+    compass.heading((LSM303::vector<int>){0, 0, 1});
+  
+  to use the +Z axis as a reference.
+  */
+  double heading = compass.heading()-112;
+  if (heading < 0) {
+    heading += 360.0;
   }
+  
   send_info("Compass Heading: " + String(heading));
 
   return heading;

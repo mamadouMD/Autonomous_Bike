@@ -91,10 +91,6 @@ void send_compass_data() {
   int first_byte = 0xB1;
   int second_byte = 0xCE;
   
-  Serial.write(first_byte);
-  Serial.write(second_byte);
-  Serial.write(0x03);
-  
   double heading = get_heading();
   
   String serial_data="";
@@ -103,7 +99,12 @@ void send_compass_data() {
   int len = serial_data.length();
   byte serial_datab[256];
   serial_data.getBytes(serial_datab,len);
-  
+
+  Serial.write(first_byte);
+  Serial.write(second_byte);
+  Serial.write(0x03);
+
+  Serial.write(len);
   Serial.write(serial_datab, len);
 }
 
