@@ -21,7 +21,7 @@ gps = bike_ultimate_gps.UltimateGPS()
 coordm = coordinate_manipulation.CoordinateManipulation()
 ard = arduino.Arduino()
 
-destinationcoord = geopy.point.Point(38.99262,-76.9373,0)
+destinationcoord = geopy.point.Point(38.991565,-76.937360,0)
 
 last_print = time.monotonic()
 while True:
@@ -32,7 +32,7 @@ while True:
     #gps.update()
     # Every second print out current location details if there's a fix.
     current = time.monotonic()
-    if current - last_print >= 3.0:
+    if current - last_print >= 6.0:
         currcoord = gps.get_gps_coord()
         bearing = coordm.bearing(currcoord, destinationcoord)
         dist = distance.distance(currcoord, destinationcoord).meters
@@ -85,7 +85,8 @@ while True:
 
         print("This is the distance: ", dist )
         print("This is the destination heading: ", bearing)
+        print("This is the amount that the bike has to turn: ", (bike_heading-bearing))
         ard.setSteer(bike_heading-bearing)
 
         ard.setBrake(3)
-        ard.setSpeed(10)
+        ard.setSpeed(5)

@@ -53,6 +53,8 @@ class UltimateGPS(threading.Thread):
         # data during parsing.  This would be twice a second (2hz, 500ms delay):
         #gps.send_command(b'PMTK220,500')
 
+        self.start()
+
 
     def run(self):
         while 1:
@@ -61,6 +63,7 @@ class UltimateGPS(threading.Thread):
     def get_gps_coord(self):
         last_print = time.monotonic()
         while not self.gps.has_fix:
+            self.gps.update()
             current = time.monotonic()
             if current - last_print >= 1.0:
                 last_print = current
@@ -82,20 +85,20 @@ class UltimateGPS(threading.Thread):
             self.gps.timestamp_utc.tm_sec))
         print('Latitude: {0:.6f} degrees'.format(self.gps.latitude))
         print('Longitude: {0:.6f} degrees'.format(self.gps.longitude))
-        print('Fix quality: {}'.format(self.gps.fix_quality))
+        #print('Fix quality: {}'.format(self.gps.fix_quality))
         # Some attributes beyond latitude, longitude and timestamp are optional
         # and might not be present.  Check if they're None before trying to use!
         if self.gps.satellites is not None:
             print('# satellites: {}'.format(self.gps.satellites))
-        if self.gps.altitude_m is not None:
-            print('Altitude: {} meters'.format(self.gps.altitude_m))
-        if self.gps.speed_knots is not None:
-            print('Speed: {} knots'.format(self.gps.speed_knots))
-        if self.gps.track_angle_deg is not None:
-            print('Track angle: {} degrees'.format(self.gps.track_angle_deg))
-        if self.gps.horizontal_dilution is not None:
-            print('Horizontal dilution: {}'.format(self.gps.horizontal_dilution))
-        if self.gps.height_geoid is not None:
-            print('Height geo ID: {} meters'.format(self.gps.height_geoid))
+        #if self.gps.altitude_m is not None:
+            #print('Altitude: {} meters'.format(self.gps.altitude_m))
+        #if self.gps.speed_knots is not None:
+            #print('Speed: {} knots'.format(self.gps.speed_knots))
+        #if self.gps.track_angle_deg is not None:
+            #print('Track angle: {} degrees'.format(self.gps.track_angle_deg))
+        #if self.gps.horizontal_dilution is not None:
+            #print('Horizontal dilution: {}'.format(self.gps.horizontal_dilution))
+        #if self.gps.height_geoid is not None:
+            #print('Height geo ID: {} meters'.format(self.gps.height_geoid))
         #Build gps coord point
         return geopy.point.Point(latitude = self.gps.latitude,longitude = self.gps.longitude)
