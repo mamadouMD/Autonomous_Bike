@@ -58,7 +58,7 @@ class Arduino(threading.Thread):
         except Exception as e:
             print("******Failed to send to arduino!**** Error: " + str(e))
 
-    def setBreak(self, brk):
+    def setBrake(self, brk):
         try:
             self.sendMagic()
             self.ser.write(b'\01')
@@ -97,8 +97,9 @@ class Arduino(threading.Thread):
                                 try:
                                     heading_len = int.from_bytes(self.ser.read(),"little")
                                     heading_str = self.ser.read(heading_len).decode('utf-8')
+                                    heading_str = heading_str.replace('\x00','')
                                     self.heading = float(heading_str)
-                                    print("Got a heading: " + str(self.heading))
+                                    #print("Got a heading: " + str(self.heading))
                                 except Exception as e:
                                     print("Messed up heading: " + str(e))
                             elif comm == b'\x04':
