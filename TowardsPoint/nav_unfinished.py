@@ -70,7 +70,7 @@ while True:
         print('Sent GPS coordinate to Team 2')
 
         last_print = current
-        if (dist < 1):
+        if (dist < 10):
             print("Reached destination")
             ard.setSpeed(0)
             ard.setBrake(1)
