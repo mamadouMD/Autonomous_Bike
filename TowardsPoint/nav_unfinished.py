@@ -20,7 +20,6 @@ class APIError(Exception):
 gps = bike_ultimate_gps.UltimateGPS()
 coordm = coordinate_manipulation.CoordinateManipulation()
 ard = arduino.Arduino()
-ard.run()
 
 destinationcoord = geopy.point.Point(38.99262,-76.9373,0)
 
@@ -34,11 +33,10 @@ while True:
     #gps.update()
     # Every second print out current location details if there's a fix.
     current = time.monotonic()
-    if current - last_print >= 2.0:
-        last_print = current
+    if current - last_print >= 3.0:
         currcoord = gps.get_gps_coord()
         bearing = coordm.bearing(currcoord, destinationcoord)
-        distance = distance.distance(currcoord, destinationcoord).meters
+        dist = distance.distance(currcoord, destinationcoord).meters
 
         jsonpost = {
             'longitude': currcoord.longitude,
@@ -71,8 +69,9 @@ while True:
         if resp.status_code != 201 and resp.status_code != 200:
             raise ApiError('Post was not successful: {}'.format(resp.status_code))
         print('Sent GPS coordinate to Team 2')
-
-        if (distance < 1):
+        
+        last_print = current
+        if (dist < 1):
             print("Reached destination")
             ard.setSpeed(0)
             ard.setBrake(1)
@@ -85,7 +84,7 @@ while True:
 
         bike_heading = ard.getHeading()
 
-        print("This is the bike bearing: ", bike_heading)
+        print("This is the distance: ", dist )
         print("This is the destination heading: ", bearing)
         ard.setSteer(bike_heading-bearing)
 
