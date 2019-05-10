@@ -34,7 +34,7 @@ while True:
     current = time.monotonic()
     if current - last_print >= 6.0:
         currcoord = gps.get_gps_coord()
-        bearing = coordm.bearing(currcoord, destinationcoord)
+        bearing = coordm.calculate_initial_compass_bearing(currcoord, destinationcoord)
         dist = distance.distance(currcoord, destinationcoord).meters
 
         jsonpost = {

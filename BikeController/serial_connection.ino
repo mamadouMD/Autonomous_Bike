@@ -4,12 +4,12 @@ void wait_for_command() {
   int second_byte;
   if(Serial.available() >0) {
     first_byte = Serial.read();
-    send_info("First byte " + String(first_byte));
+    //send_info("First byte " + String(first_byte));
     if(first_byte == 0xB1) {
       second_byte = read_serial();
-      send_info("Second byte " + String(second_byte));
+      //send_info("Second byte " + String(second_byte));
       if(second_byte == 0xCE) {
-        send_info("Got a message");
+        //send_info("Got a message");
         read_msg();
       }
     }
