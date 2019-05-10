@@ -75,7 +75,7 @@ class UltimateGPS(threading.Thread):
                     break
         # We have a fix! (gps.has_fix is true)
         # Print out details about the fix like location, date, etc.
-        print('=' * 40)  # Print a separator line.
+        #print('=' * 40)  # Print a separator line.
         print('Fix timestamp: {}/{}/{} {:02}:{:02}:{:02}'.format(
             self.gps.timestamp_utc.tm_mon,   # Grab parts of the time from the
             self.gps.timestamp_utc.tm_mday,  # struct_time object that holds
